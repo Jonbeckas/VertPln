@@ -53,4 +53,7 @@
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"
             android:backgroundTint="@color/darkGrey" android:id="@+id/view"/>
+    <WebView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 </LinearLayout>

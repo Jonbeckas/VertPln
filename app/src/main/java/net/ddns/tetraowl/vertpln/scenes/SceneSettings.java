@@ -2,10 +2,12 @@ package net.ddns.tetraowl.vertpln.scenes;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import net.ddns.tetraowl.vertpln.MainActivity;
+import net.ddns.tetraowl.vertpln.MoodleTricks;
 import net.ddns.tetraowl.vertpln.R;
 import net.ddns.tetraowl.vertpln.scene_managing.SceneClass;
 
@@ -45,6 +47,7 @@ public class SceneSettings extends SceneClass {
     }
 
     private void getID(View view) {
-        super.getController().changeTo(new SceneGet(), R.transition.normal);
+        MoodleTricks moodle = new MoodleTricks(this.mainActivity);
+        moodle.getMoodleCookie();
     }
 }
