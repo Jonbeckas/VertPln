@@ -1,10 +1,7 @@
 package net.ddns.tetraowl.vertpln.scenes;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import net.ddns.tetraowl.vertpln.MainActivity;
 import net.ddns.tetraowl.vertpln.MoodleTricks;
@@ -13,6 +10,9 @@ import net.ddns.tetraowl.vertpln.scene_managing.SceneClass;
 
 public class SceneSettings extends SceneClass {
     MainActivity mainActivity;
+    TextView username;
+    TextView password;
+    MoodleTricks moodle;
     @Override
     public int getLayoutId() {
         return R.layout.settings;
@@ -25,9 +25,8 @@ public class SceneSettings extends SceneClass {
 
     @Override
     public boolean handleBackButtonPress() {
-        SharedPreferences pref = this.mainActivity.getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.apply();
+        this.moodle.setPassword(password.getText().toString());
+        this.moodle.setUsername(username.getText().toString());
         super.getController().changeTo(new SceneStart(),R.transition.normal);
         return true;
     }
@@ -40,14 +39,24 @@ public class SceneSettings extends SceneClass {
     @Override
     public void onBoth() {
         this.mainActivity = super.getController().getActivity();
-        Button buttonGet = this.mainActivity.findViewById(R.id.getID);
-        buttonGet.setOnClickListener(this::getID);
-        SharedPreferences pref = this.mainActivity.getPreferences(Context.MODE_PRIVATE);
-        String sessionId = pref.getString("sessionId",null);
+        this.password = this.mainActivity.findViewById(R.id.password);
+        this.username = this.mainActivity.findViewById(R.id.username);
+        ImageView back = this.mainActivity.findViewById(R.id.back);
+        back.setOnClickListener(this::back);
+        this.moodle = new MoodleTricks(this.mainActivity);
+        this.password.setText(moodle.getPassword());
+        this.username.setText(moodle.getUsername());
+        TextView about = this.mainActivity.findViewById(R.id.about);
+        about.setOnClickListener(this::about);
+
     }
 
-    private void getID(View view) {
-        MoodleTricks moodle = new MoodleTricks(this.mainActivity);
-        moodle.getMoodleCookie();
+    private void about(View view) {
+        super.getController().changeTo(new SceneAbout(),R.transition.normal);
     }
+
+    private void back(View view) {
+        handleBackButtonPress();
+    }
+
 }

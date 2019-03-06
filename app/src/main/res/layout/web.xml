@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto" android:orientation="vertical"
+              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+              android:orientation="vertical"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
@@ -11,10 +12,9 @@
             android:layout_height="60dp"
             android:elevation="10dp">
         <ImageView
-                android:layout_width="60dp"
-                android:layout_height="60dp" app:srcCompat="?attr/actionModeCloseDrawable"
+                android:layout_height="50dp" app:srcCompat="?attr/actionModeCloseDrawable"
                 android:id="@+id/back" android:layout_weight="0" android:backgroundTint="@color/darkGrey"
-                android:padding="10dp"/>
+                android:padding="10dp" android:layout_width="50dp" android:layout_gravity="center_vertical"/>
         <TextView
                 android:id="@+id/topic"
                 android:text="VertPln"
@@ -28,7 +28,19 @@
                 android:textColor="@color/darkGrey"
                 android:textStyle="bold"/>
     </LinearLayout>
-    <WebView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" android:id="@+id/toBr" android:paddingTop="10dp"/>
+        <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" tools:layout_editor_absoluteY="8dp" tools:layout_editor_absoluteX="8dp">
+            <WebView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" android:id="@+id/toBr" android:paddingTop="10dp">
+            </WebView>
+            <ProgressBar
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:id="@+id/load" android:foregroundGravity="center_vertical|center_horizontal"
+                    android:layout_gravity="center_vertical|center_horizontal"
+                    android:indeterminateTint="@color/darkGrey"/>
+        </FrameLayout>
 </LinearLayout>

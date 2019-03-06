@@ -13,7 +13,7 @@ import net.ddns.tetraowl.vertpln.MainActivity;
 import net.ddns.tetraowl.vertpln.R;
 import net.ddns.tetraowl.vertpln.scene_managing.SceneClass;
 
-
+@Deprecated
 public class SceneGet extends SceneClass {
     MainActivity mainActivity;
     WebView web;

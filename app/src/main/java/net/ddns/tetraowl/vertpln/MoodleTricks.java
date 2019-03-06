@@ -6,40 +6,63 @@ import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import com.toddway.shelf.Shelf;
+
+import java.io.File;
 
 
 public class MoodleTricks{
     private MainActivity mainActivity;
+    String cookie;
+
     public MoodleTricks(MainActivity mainActivity) {
         this.mainActivity = mainActivity;
     }
+
     public String getMoodleCookie() {
-        WebView webView = this.mainActivity.findViewById(R.id.htmlf);
+        WebView webView = this.mainActivity.findViewById(R.id.html);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setDomStorageEnabled(true);
         webView.setWebViewClient(new WebViewClient() {
             public void onPageFinished(WebView view, String url) {
                 Log.d("test",view.getUrl());
                 if ("https://moodle.gym-voh.de/login/index.php".equals(view.getUrl())) {
-                    view.loadUrl("javascript:("
-                            +"var u = document.getElementById('username');"
-                            + "var p = document.getElementById('password');"
-                            + "var b = document.getElementById('loginbtn');"
-                            + "u.value = 'becker.jo';"
-                            + "p.value ='jonibeck';"
+                    view.loadUrl("javascript:(function() {"
+                            +"u = document.getElementById('username');"
+                            + "p = document.getElementById('password');"
+                            + "b = document.getElementById('loginbtn');"
+                            + "u.value = '"+getUsername()+"';"
+                            + "p.value ='"+getPassword()+"';"
                             + "b.click();"
-                            +"})");
-                    Log.d("test","vjdajdhsadk");
+                            +"})()");
                 }
                 else {
-                    SharedPreferences pref = mainActivity.getPreferences(Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = pref.edit();
-                    editor.putString("moodleCookie", CookieManager.getInstance().getCookie("https://moodle.gym-voh.de"));
-                    editor.apply();
-                    Log.d("test", CookieManager.getInstance().getCookie("https://moodle.gym-voh.de")+view.getUrl() );
+                    MoodleTricks.this.cookie = CookieManager.getInstance().getCookie("https://moodle.gym-voh.de");
                 }
             }
         });
         webView.loadUrl("https://moodle.gym-voh.de/login/index.php");
-        return null;
+        return cookie;
+    }
+
+
+    public void setPassword(String password) {
+        Shelf shelf = new Shelf(new File(this.mainActivity.getFilesDir(),"config"));
+        shelf.item("password").put(password);
+    }
+
+    public void setUsername(String username) {
+        Shelf shelf = new Shelf(new File(this.mainActivity.getFilesDir(),"config"));
+        shelf.item("username").put(username);
+    }
+    public String getPassword() {
+        Shelf shelf = new Shelf(new File(this.mainActivity.getFilesDir(),"config"));
+        return shelf.item("password").get(String.class);
+    }
+
+    public String getUsername() {
+        Shelf shelf = new Shelf(new File(this.mainActivity.getFilesDir(),"config"));
+        return shelf.item("username").get(String.class);
     }
 
 }
