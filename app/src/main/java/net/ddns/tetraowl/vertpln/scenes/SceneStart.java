@@ -47,6 +47,13 @@ public class SceneStart extends SceneClass {
         moodle.getMoodleCookie();
         this.swipe = this.mainActivity.findViewById(R.id.swipe);
         this.swipe.setOnRefreshListener(this::onRefresh);
+        try {
+            VertretungsplanTricks plan =new VertretungsplanTricks(this.mainActivity);
+            plan.getHours();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
 
         List<VertObject> list = new ArrayList<>();
 

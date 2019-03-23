@@ -3,6 +3,7 @@ package net.ddns.tetraowl.vertpln.scenes;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.CountDownTimer;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -51,29 +52,31 @@ public class SceneToday extends SceneClass {
         this.load = this.mainActivity.findViewById(R.id.load);
         TextView topic = this.mainActivity.findViewById(R.id.topic);
         this.mainActivity.findViewById(R.id.back).setOnClickListener(this::back);
-        web.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                if (!url.equals("https://moodle.gym-voh.de/login/index.php")) {
-                    SceneToday.this.web.setVisibility(View.VISIBLE);
-                    SceneToday.this.load.setVisibility(View.GONE);
-                    SceneToday.this.plan.setOfflinePlanToday(view);
-                }
-                super.onPageFinished(view, url);
-            }
-        });
         MoodleTricks moodle = new MoodleTricks(this.mainActivity);
-        String cookieString = moodle.getMoodleCookie();
-        CookieManager.getInstance().setCookie("moodle.gym-voh.de",cookieString);
         if (Utils.isConnected(this.mainActivity)) {
             topic.setText("Vertretungsplan Heute");
-            this.web.loadUrl("https://moodle.gym-voh.de/pluginfile.php/3952/mod_resource/content/4/schuelerheute.htm?embed=1");
+            moodle.getMoodleSite(this.web,"https://moodle.gym-voh.de/pluginfile.php/3952/mod_resource/content/4/schuelerheute.htm?embed=1",this::onFinished);
         } else {
             topic.setText("Vertretungsplan Heute (Offline)");
             this.plan.getOfflinePlanToday(this.web);
         }
+        SwipeRefreshLayout refresh = this.mainActivity.findViewById(R.id.refresh);
+        refresh.setOnRefreshListener(this::refresh);
         countdown();
     }
+
+    private void onFinished() {
+        this.web.setVisibility(View.VISIBLE);
+        this.load.setVisibility(View.GONE);
+        this.plan.setOfflinePlanToday(this.web);
+    }
+
+    private void refresh() {
+        this.web.reload();
+        SwipeRefreshLayout refresh = this.mainActivity.findViewById(R.id.refresh);
+        refresh.setRefreshing(false);
+    }
+
     private void countdown() {
         new CountDownTimer(60000, 1000) {
             @Override

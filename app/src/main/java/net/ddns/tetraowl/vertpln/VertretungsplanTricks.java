@@ -47,12 +47,14 @@ public class VertretungsplanTricks {
         web.loadUrl("file://"+new File(this.mainActivity.getCacheDir(),"today").getAbsolutePath()+".mht");
     }
 
-  /*  public List<VertObject> getHours() {
-        Document html = Jsoup.parse("file://"+new File(this.mainActivity.getFilesDir(),"today").getAbsolutePath()+".mht");
+   public List<VertObject> getHours() {
+        Document html = Jsoup.parse("file://"+new File(this.mainActivity.getCacheDir(),"today").getAbsolutePath()+".mht");
         Elements table = html.select("table");
         Elements rows = table.get(1).select("tr");
         for (Element rowz: rows) {
+            Element rowzz = rowz;
 
         }
-    }*/
+        return null;
+    }
 }

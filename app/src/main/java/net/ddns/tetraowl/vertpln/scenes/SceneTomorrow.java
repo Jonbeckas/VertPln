@@ -3,6 +3,7 @@ package net.ddns.tetraowl.vertpln.scenes;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.CountDownTimer;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.transition.Scene;
 import android.view.View;
 import android.webkit.CookieManager;
@@ -21,6 +22,7 @@ public class SceneTomorrow extends SceneClass {
     WebView web;
     ProgressBar load;
     VertretungsplanTricks plan;
+    SwipeRefreshLayout refresh;
     @Override
     public int getLayoutId() {
         return R.layout.web;
@@ -71,7 +73,14 @@ public class SceneTomorrow extends SceneClass {
             topic.setText("Vertretungsplan Morgen (Offline)");
             this.plan.getOfflinePlanTomorrow(this.web);
         }
+        this.refresh = this.mainActivity.findViewById(R.id.refresh);
+        this.refresh.setOnRefreshListener(this::refresh);
         countdown();
+    }
+
+    private void refresh() {
+        this.web.reload();
+        this.refresh.setRefreshing(false);
     }
 
     private void countdown() {
