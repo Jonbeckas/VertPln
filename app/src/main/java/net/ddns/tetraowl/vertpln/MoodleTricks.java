@@ -50,7 +50,7 @@ public class MoodleTricks{
         return cookie;
     }
 
-    public String getMoodleSite(WebView web, String url, OnPageLoad load) {
+    public void getMoodleSite(WebView web, String url, OnPageLoad load) {
         this.load = load;
         this.url = url;
         web.getSettings().setDomStorageEnabled(true);
@@ -72,11 +72,12 @@ public class MoodleTricks{
                     MoodleTricks.this.load.onPageLoad();
                 }
                 else {
+                    //MoodleTricks.this.load.onPageLoad();
                     web.loadUrl(MoodleTricks.this.url);
                 }
             }
         });
-        return null;
+        web.loadUrl(url);
     }
 
 

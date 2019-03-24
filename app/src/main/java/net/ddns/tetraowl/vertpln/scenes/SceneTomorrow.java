@@ -50,17 +50,6 @@ public class SceneTomorrow extends SceneClass {
         this.plan = new VertretungsplanTricks(this.mainActivity);
         web = this.mainActivity.findViewById(R.id.toBr);
         this.load = this.mainActivity.findViewById(R.id.load);
-        web.setWebViewClient(new WebViewClient() {
-            @Override
-            public void onPageFinished(WebView view, String url) {
-                if (!url.equals("https://moodle.gym-voh.de/login/index.php")) {
-                    SceneTomorrow.this.web.setVisibility(View.VISIBLE);
-                    SceneTomorrow.this.load.setVisibility(View.GONE);
-                    SceneTomorrow.this.plan.setOfflinePlanTomorrow(view);
-                }
-                super.onPageFinished(view, url);
-            }
-        });
         TextView topic = this.mainActivity.findViewById(R.id.topic);
         this.mainActivity.findViewById(R.id.back).setOnClickListener(this::back);
         MoodleTricks moodle = new MoodleTricks(this.mainActivity);
@@ -68,7 +57,7 @@ public class SceneTomorrow extends SceneClass {
         CookieManager.getInstance().setCookie("moodle.gym-voh.de",cookieString);
         if (Utils.isConnected(this.mainActivity)) {
             topic.setText("Vertretungsplan Morgen");
-            web.loadUrl("https://moodle.gym-voh.de/pluginfile.php/3953/mod_resource/content/3/schuelermorgen.htm?embed=1");
+            moodle.getMoodleSite(this.web,"https://moodle.gym-voh.de/pluginfile.php/3952/mod_resource/content/4/schuelerheute.htm?embed=1",this::onFinished);
         } else {
             topic.setText("Vertretungsplan Morgen (Offline)");
             this.plan.getOfflinePlanTomorrow(this.web);
@@ -76,6 +65,12 @@ public class SceneTomorrow extends SceneClass {
         this.refresh = this.mainActivity.findViewById(R.id.refresh);
         this.refresh.setOnRefreshListener(this::refresh);
         countdown();
+    }
+
+    private void onFinished() {
+        this.web.setVisibility(View.VISIBLE);
+        this.load.setVisibility(View.GONE);
+        this.plan.setOfflinePlanTomorrow(this.web);
     }
 
     private void refresh() {

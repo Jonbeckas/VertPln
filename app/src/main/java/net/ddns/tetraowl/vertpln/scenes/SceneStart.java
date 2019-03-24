@@ -49,15 +49,13 @@ public class SceneStart extends SceneClass {
         this.swipe.setOnRefreshListener(this::onRefresh);
         try {
             VertretungsplanTricks plan =new VertretungsplanTricks(this.mainActivity);
-            plan.getHours();
+            //plan.getHours();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
 
         List<VertObject> list = new ArrayList<>();
-
-
         RecyclerView recyclerView = this.mainActivity.findViewById(R.id.recycle);
 
 
