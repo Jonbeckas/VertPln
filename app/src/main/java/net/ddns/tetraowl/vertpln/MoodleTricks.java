@@ -1,5 +1,6 @@
 package net.ddns.tetraowl.vertpln;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.Nullable;
@@ -55,6 +56,15 @@ public class MoodleTricks{
         this.url = url;
         web.getSettings().setDomStorageEnabled(true);
         web.getSettings().setJavaScriptEnabled(true);
+        if (getUsername()==null || getPassword()==null) {
+            AlertDialog.Builder build = new AlertDialog.Builder(this.mainActivity);
+            build.setTitle("Sorry");
+            build.setMessage("Bitte gebe deine Moodlezugangsdaten an?");
+            build.setPositiveButton("OK",null);
+            AlertDialog message = build.create();
+            message.show();
+            return;
+        }
         web.setWebViewClient(new WebViewClient(){
             @Override
             public void onPageFinished(WebView view, String ourl) {

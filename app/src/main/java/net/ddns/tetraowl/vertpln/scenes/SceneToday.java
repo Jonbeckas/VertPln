@@ -48,7 +48,7 @@ public class SceneToday extends SceneClass {
         this.mainActivity = super.getController().getActivity();
         this.web = this.mainActivity.findViewById(R.id.toBr);
         this.plan = new VertretungsplanTricks(this.mainActivity);
-        web.setVisibility(View.INVISIBLE);
+        //web.setVisibility(View.INVISIBLE);
         this.load = this.mainActivity.findViewById(R.id.load);
         TextView topic = this.mainActivity.findViewById(R.id.topic);
         this.mainActivity.findViewById(R.id.back).setOnClickListener(this::back);
@@ -59,6 +59,7 @@ public class SceneToday extends SceneClass {
         } else {
             topic.setText("Vertretungsplan Heute (Offline)");
             this.plan.getOfflinePlanToday(this.web);
+            onFinished();
         }
         SwipeRefreshLayout refresh = this.mainActivity.findViewById(R.id.refresh);
         refresh.setOnRefreshListener(this::refresh);
@@ -72,7 +73,18 @@ public class SceneToday extends SceneClass {
     }
 
     private void refresh() {
-        this.web.reload();
+        TextView topic = this.mainActivity.findViewById(R.id.topic);
+        this.mainActivity.findViewById(R.id.back).setOnClickListener(this::back);
+        MoodleTricks moodle = new MoodleTricks(this.mainActivity);
+        if (Utils.isConnected(this.mainActivity)) {
+            topic.setText("Vertretungsplan Heute");
+            moodle.getMoodleSite(this.web,"https://moodle.gym-voh.de/pluginfile.php/3952/mod_resource/content/4/schuelerheute.htm?embed=1",this::onFinished);
+        } else {
+            topic.setText("Vertretungsplan Heute (Offline)");
+            this.plan.getOfflinePlanToday(this.web);
+            this.web.setVisibility(View.VISIBLE);
+            this.load.setVisibility(View.GONE);
+        }
         SwipeRefreshLayout refresh = this.mainActivity.findViewById(R.id.refresh);
         refresh.setRefreshing(false);
     }
@@ -85,7 +97,7 @@ public class SceneToday extends SceneClass {
 
             @Override
             public void onFinish() {
-                SceneToday.this.web.reload();
+                SceneToday.this.refresh();
                 SceneToday.this.countdown();
             }
         }.start();

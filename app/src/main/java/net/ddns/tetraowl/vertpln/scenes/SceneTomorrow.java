@@ -57,10 +57,12 @@ public class SceneTomorrow extends SceneClass {
         CookieManager.getInstance().setCookie("moodle.gym-voh.de",cookieString);
         if (Utils.isConnected(this.mainActivity)) {
             topic.setText("Vertretungsplan Morgen");
-            moodle.getMoodleSite(this.web,"https://moodle.gym-voh.de/pluginfile.php/3952/mod_resource/content/4/schuelerheute.htm?embed=1",this::onFinished);
+            moodle.getMoodleSite(this.web,"https://moodle.gym-voh.de/pluginfile.php/3953/mod_resource/content/3/schuelermorgen.htm?embed=1",this::onFinished);
         } else {
             topic.setText("Vertretungsplan Morgen (Offline)");
             this.plan.getOfflinePlanTomorrow(this.web);
+            this.web.setVisibility(View.VISIBLE);
+            this.load.setVisibility(View.GONE);
         }
         this.refresh = this.mainActivity.findViewById(R.id.refresh);
         this.refresh.setOnRefreshListener(this::refresh);
@@ -74,7 +76,15 @@ public class SceneTomorrow extends SceneClass {
     }
 
     private void refresh() {
-        this.web.reload();
+        MoodleTricks moodle = new MoodleTricks(this.mainActivity);
+        TextView topic = this.mainActivity.findViewById(R.id.topic);
+        if (Utils.isConnected(this.mainActivity)) {
+            topic.setText("Vertretungsplan Morgen");
+            moodle.getMoodleSite(this.web,"https://moodle.gym-voh.de/pluginfile.php/3953/mod_resource/content/3/schuelermorgen.htm?embed=1",this::onFinished);
+        } else {
+            topic.setText("Vertretungsplan Morgen (Offline)");
+            this.plan.getOfflinePlanTomorrow(this.web);
+        }
         this.refresh.setRefreshing(false);
     }
 
@@ -86,7 +96,7 @@ public class SceneTomorrow extends SceneClass {
 
             @Override
             public void onFinish() {
-                SceneTomorrow.this.web.reload();
+                SceneTomorrow.this.refresh();
                 SceneTomorrow.this.countdown();
             }
         }.start();
