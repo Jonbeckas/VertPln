@@ -59,7 +59,7 @@ public class MoodleTricks{
         if (getUsername()==null || getPassword()==null) {
             AlertDialog.Builder build = new AlertDialog.Builder(this.mainActivity);
             build.setTitle("Sorry");
-            build.setMessage("Bitte gebe deine Moodlezugangsdaten an?");
+            build.setMessage("Bitte gebe deine Moodlezugangsdaten an");
             build.setPositiveButton("OK",null);
             AlertDialog message = build.create();
             message.show();

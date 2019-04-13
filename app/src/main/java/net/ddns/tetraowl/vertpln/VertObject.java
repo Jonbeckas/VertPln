@@ -9,6 +9,7 @@ public class VertObject {
     private String art;
     private String bemerkung;
 
+
     public String getLehrer() {
         return lehrer;
     }

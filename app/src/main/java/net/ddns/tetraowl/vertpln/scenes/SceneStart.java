@@ -4,7 +4,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
+import io.sentry.Sentry;
 import net.ddns.tetraowl.vertpln.*;
 import net.ddns.tetraowl.vertpln.scene_managing.SceneClass;
 
@@ -47,15 +49,21 @@ public class SceneStart extends SceneClass {
         moodle.getMoodleCookie();
         this.swipe = this.mainActivity.findViewById(R.id.swipe);
         this.swipe.setOnRefreshListener(this::onRefresh);
+        moodle.getMoodleSite(this.mainActivity.findViewById(R.id.html),"https://moodle.gym-voh.de/pluginfile.php/3952/mod_resource/content/4/schuelerheute.htm?embed=1",this::OnPageFinishes);
+        List<VertObject> list;
         try {
-            VertretungsplanTricks plan =new VertretungsplanTricks(this.mainActivity);
-            //plan.getHours();
+            VertretungsplanTricks plan = new VertretungsplanTricks(this.mainActivity);
+            list = plan.getHours();
         } catch (Exception e) {
             e.printStackTrace();
+            Sentry.capture(e);
+            VertObject vobject = new VertObject();
+            vobject.setBemerkung("Es ist ein Fehler aufgetreten!");
+            list = new ArrayList<VertObject>();
+            list.add(vobject);
         }
 
 
-        List<VertObject> list = new ArrayList<>();
         RecyclerView recyclerView = this.mainActivity.findViewById(R.id.recycle);
 
 
@@ -63,12 +71,42 @@ public class SceneStart extends SceneClass {
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.mainActivity);
         recyclerView.setLayoutManager(layoutManager);
-        String[] array = {"Test","Test","Test"};
-        RecyclerView.Adapter mAdapter = new DroppingView(array);
+        RecyclerView.Adapter mAdapter = new DroppingView(list);
         recyclerView.setAdapter(mAdapter);
     }
 
+    private void OnPageFinishes() {
+        VertretungsplanTricks plan = new VertretungsplanTricks(this.mainActivity);
+        plan.setOfflinePlanToday(this.mainActivity.findViewById(R.id.html));
+
+    }
+
     private void onRefresh() {
+        MoodleTricks moodle = new MoodleTricks(this.mainActivity);
+        moodle.getMoodleSite(this.mainActivity.findViewById(R.id.html),"https://moodle.gym-voh.de/pluginfile.php/3952/mod_resource/content/4/schuelerheute.htm?embed=1",this::OnPageFinishes);
+        List<VertObject> list;
+        try {
+            VertretungsplanTricks plan = new VertretungsplanTricks(this.mainActivity);
+            list = plan.getHours();
+        } catch (Exception e) {
+            e.printStackTrace();
+            Sentry.capture(e);
+            VertObject vobject = new VertObject();
+            vobject.setBemerkung("Es ist ein Fehler aufgetreten!");
+            list = new ArrayList<VertObject>();
+            list.add(vobject);
+        }
+
+
+        RecyclerView recyclerView = this.mainActivity.findViewById(R.id.recycle);
+
+
+        recyclerView.setHasFixedSize(true);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.mainActivity);
+        recyclerView.setLayoutManager(layoutManager);
+        RecyclerView.Adapter mAdapter = new DroppingView(list);
+        recyclerView.setAdapter(mAdapter);
         this.swipe.setRefreshing(false);
     }
 

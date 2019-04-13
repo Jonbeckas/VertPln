@@ -6,13 +6,16 @@ import android.widget.TextView;
 import net.ddns.tetraowl.vertpln.MainActivity;
 import net.ddns.tetraowl.vertpln.MoodleTricks;
 import net.ddns.tetraowl.vertpln.R;
+import net.ddns.tetraowl.vertpln.VertretungsplanTricks;
 import net.ddns.tetraowl.vertpln.scene_managing.SceneClass;
 
 public class SceneSettings extends SceneClass {
     MainActivity mainActivity;
     TextView username;
     TextView password;
+    TextView clazz;
     MoodleTricks moodle;
+    VertretungsplanTricks vtricks;
     @Override
     public int getLayoutId() {
         return R.layout.settings;
@@ -25,8 +28,9 @@ public class SceneSettings extends SceneClass {
 
     @Override
     public boolean handleBackButtonPress() {
-        this.moodle.setPassword(password.getText().toString());
-        this.moodle.setUsername(username.getText().toString());
+        this.moodle.setPassword(this.password.getText().toString());
+        this.moodle.setUsername(this.username.getText().toString());
+        this.vtricks.setClass(this.clazz.getText().toString());
         super.getController().changeTo(new SceneStart(),R.transition.normal);
         return true;
     }
@@ -48,7 +52,9 @@ public class SceneSettings extends SceneClass {
         this.username.setText(moodle.getUsername());
         TextView about = this.mainActivity.findViewById(R.id.about);
         about.setOnClickListener(this::about);
-
+        this.vtricks = new VertretungsplanTricks(this.mainActivity);
+        this.clazz = this.mainActivity.findViewById(R.id.klasse);
+        this.clazz.setText(vtricks.getClazz());
     }
 
     private void about(View view) {

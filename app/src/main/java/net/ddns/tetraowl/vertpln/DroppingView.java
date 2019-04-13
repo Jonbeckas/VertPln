@@ -7,11 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.List;
+
 public class DroppingView extends RecyclerView.Adapter<DroppingView.Holder> {
 
-    private String[] mDataset;
+    private List<VertObject> mDataset;
 
-    public DroppingView(String[] myDataset) {
+    public DroppingView(List<VertObject> myDataset) {
         this.mDataset = myDataset;
     }
 
@@ -25,20 +27,38 @@ public class DroppingView extends RecyclerView.Adapter<DroppingView.Holder> {
 
     @Override
     public void onBindViewHolder(@NonNull DroppingView.Holder holder, int i) {
-        holder.textView.setText(mDataset[i]);
+        holder.hour.setText(mDataset.get(i).getStunde());
+        holder.teacher.setText(mDataset.get(i).getLehrer());
+        holder.vertreten.setText(mDataset.get(i).getWer());
+        holder.room.setText(mDataset.get(i).getRaum());
+        holder.lesson.setText(mDataset.get(i).getFach());
+        holder.art.setText(mDataset.get(i).getArt());
+        holder.other.setText(mDataset.get(i).getBemerkung());
     }
 
 
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return mDataset.size();
     }
 
     public class Holder extends RecyclerView.ViewHolder{
-        public TextView textView;
+        public TextView hour;
+        public TextView teacher;
+        public TextView vertreten;
+        public TextView room;
+        public TextView lesson;
+        public TextView art;
+        public TextView other;
         public Holder(@NonNull View view) {
             super(view);
-            this.textView = view.findViewById(R.id.other);
+            this.hour = view.findViewById(R.id.hour);
+            this.teacher = view.findViewById(R.id.teacher);
+            this.vertreten = view.findViewById(R.id.vertreten);
+            this.room = view.findViewById(R.id.room);
+            this.lesson = view.findViewById(R.id.lesson);
+            this.art = view.findViewById(R.id.art);
+            this.other = view.findViewById(R.id.other);
 
         }
     }

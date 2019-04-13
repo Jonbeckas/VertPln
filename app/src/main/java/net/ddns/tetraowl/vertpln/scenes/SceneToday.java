@@ -48,7 +48,7 @@ public class SceneToday extends SceneClass {
         this.mainActivity = super.getController().getActivity();
         this.web = this.mainActivity.findViewById(R.id.toBr);
         this.plan = new VertretungsplanTricks(this.mainActivity);
-        //web.setVisibility(View.INVISIBLE);
+        web.setVisibility(View.INVISIBLE);
         this.load = this.mainActivity.findViewById(R.id.load);
         TextView topic = this.mainActivity.findViewById(R.id.topic);
         this.mainActivity.findViewById(R.id.back).setOnClickListener(this::back);
