@@ -53,8 +53,6 @@ public class SceneTomorrow extends SceneClass {
         TextView topic = this.mainActivity.findViewById(R.id.topic);
         this.mainActivity.findViewById(R.id.back).setOnClickListener(this::back);
         MoodleTricks moodle = new MoodleTricks(this.mainActivity);
-        String cookieString = moodle.getMoodleCookie();
-        CookieManager.getInstance().setCookie("moodle.gym-voh.de",cookieString);
         if (Utils.isConnected(this.mainActivity)) {
             topic.setText("Vertretungsplan Morgen");
             moodle.getMoodleSite(this.web,"https://moodle.gym-voh.de/pluginfile.php/3953/mod_resource/content/3/schuelermorgen.htm?embed=1",this::onFinished);

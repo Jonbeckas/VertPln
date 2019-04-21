@@ -1,5 +1,6 @@
 package net.ddns.tetraowl.vertpln;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ViewGroup;
@@ -7,6 +8,7 @@ import io.sentry.Sentry;
 import io.sentry.android.AndroidSentryClientFactory;
 import net.ddns.tetraowl.vertpln.scene_managing.SceneController;
 import net.ddns.tetraowl.vertpln.scenes.SceneStart;
+import net.ddns.tetraowl.vertpln.service.BackgroundService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         ViewGroup root = findViewById(R.id.rootElement);
         this.sceneController = new SceneController(root, this);
         this.sceneController.changeTo(new SceneStart(),R.transition.normal);
-
+        startService(new Intent(this, BackgroundService.class));
     }
 
     @Override

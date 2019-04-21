@@ -15,41 +15,16 @@ import java.io.File;
 
 
 public class MoodleTricks{
-    private MainActivity mainActivity;
+    private Context mainActivity;
     String cookie;
     String url;
     OnPageLoad load;
 
-    public MoodleTricks(MainActivity mainActivity) {
+    public MoodleTricks(Context mainActivity) {
         this.mainActivity = mainActivity;
     }
 
-    @Deprecated
-    public String getMoodleCookie() {
-        WebView webView = this.mainActivity.findViewById(R.id.html);
-        webView.getSettings().setJavaScriptEnabled(true);
-        webView.getSettings().setDomStorageEnabled(true);
-        webView.setWebViewClient(new WebViewClient() {
-            public void onPageFinished(WebView view, String url) {
-                Log.d("test",view.getUrl());
-                if ("https://moodle.gym-voh.de/login/index.php".equals(view.getUrl())) {
-                    view.loadUrl("javascript:(function() {"
-                            +"u = document.getElementById('username');"
-                            + "p = document.getElementById('password');"
-                            + "b = document.getElementById('loginbtn');"
-                            + "u.value = '"+getUsername()+"';"
-                            + "p.value ='"+getPassword()+"';"
-                            + "b.click();"
-                            +"})()");
-                }
-                else {
-                    MoodleTricks.this.cookie = CookieManager.getInstance().getCookie("https://moodle.gym-voh.de");
-                }
-            }
-        });
-        webView.loadUrl("https://moodle.gym-voh.de/login/index.php");
-        return cookie;
-    }
+
 
     public void getMoodleSite(WebView web, String url, OnPageLoad load) {
         this.load = load;
@@ -83,7 +58,7 @@ public class MoodleTricks{
                 }
                 else {
                     //MoodleTricks.this.load.onPageLoad();
-                    web.loadUrl(MoodleTricks.this.url);
+                    web.loadUrl(url);
                 }
             }
         });

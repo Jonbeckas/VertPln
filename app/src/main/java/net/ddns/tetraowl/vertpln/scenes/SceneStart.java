@@ -44,7 +44,6 @@ public class SceneStart extends SceneClass {
         ImageView settings = this.mainActivity.findViewById(R.id.iwSettings);
         settings.setOnClickListener(this::settingsClick);
         MoodleTricks moodle = new MoodleTricks(this.mainActivity);
-        moodle.getMoodleCookie();
         this.swipe = this.mainActivity.findViewById(R.id.swipe);
         this.swipe.setOnRefreshListener(this::onRefresh);
         try {
