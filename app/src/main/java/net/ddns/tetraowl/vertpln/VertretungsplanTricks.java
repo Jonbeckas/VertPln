@@ -1,5 +1,6 @@
 package net.ddns.tetraowl.vertpln;
 
+import android.content.Context;
 import android.util.Log;
 import android.webkit.WebView;
 
@@ -21,9 +22,9 @@ import java.util.regex.Pattern;
 
 public class VertretungsplanTricks {
 
-    MainActivity mainActivity;
+    Context mainActivity;
 
-    public VertretungsplanTricks(MainActivity mainActivity) {
+    public VertretungsplanTricks(Context mainActivity) {
         this.mainActivity = mainActivity;
     }
 

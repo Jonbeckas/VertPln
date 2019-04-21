@@ -46,7 +46,6 @@ public class SceneStart extends SceneClass {
         ImageView settings = this.mainActivity.findViewById(R.id.iwSettings);
         settings.setOnClickListener(this::settingsClick);
         MoodleTricks moodle = new MoodleTricks(this.mainActivity);
-        moodle.getMoodleCookie();
         this.swipe = this.mainActivity.findViewById(R.id.swipe);
         this.swipe.setOnRefreshListener(this::onRefresh);
         moodle.getMoodleSite(this.mainActivity.findViewById(R.id.html),"https://moodle.gym-voh.de/pluginfile.php/3952/mod_resource/content/4/schuelerheute.htm?embed=1",this::OnPageFinishes);
