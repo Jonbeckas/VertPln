@@ -58,6 +58,7 @@ public class SceneSettings extends SceneClass {
     }
 
     private void about(View view) {
+        handleBackButtonPress();
         super.getController().changeTo(new SceneAbout(),R.transition.normal);
     }
 

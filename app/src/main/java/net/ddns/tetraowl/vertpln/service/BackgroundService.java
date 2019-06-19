@@ -1,16 +1,21 @@
 package net.ddns.tetraowl.vertpln.service;
 
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
 import android.os.CountDownTimer;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
 import net.ddns.tetraowl.vertpln.MoodleTricks;
+import net.ddns.tetraowl.vertpln.R;
 import net.ddns.tetraowl.vertpln.VertretungsplanTricks;
 import net.ddns.tetraowl.vertpln.scenes.SceneToday;
 import org.jetbrains.annotations.Nullable;
@@ -27,12 +32,12 @@ public class BackgroundService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Toast.makeText(this, "Der VertPln Service wurde gestoppt", Toast.LENGTH_LONG).show();
+        Log.i("VertPln","Der VertPln Service wurde gestoppt");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Toast.makeText(this, "Der VertPln Service wurde gstartet", Toast.LENGTH_LONG).show();
+        Log.i("VertPln","Der VertPln Service wurde gestartet");
         getNewestPlan();
         countdown();
         return super.onStartCommand(intent, flags, startId);
@@ -59,6 +64,7 @@ public class BackgroundService extends Service {
         this.web =wv;
         MoodleTricks moodleTricks = new MoodleTricks(this.getBaseContext());
         moodleTricks.getMoodleSite(wv,"https://moodle.gym-voh.de/pluginfile.php/3952/mod_resource/content/4/schuelerheute.htm?embed=1",this::onLoad);
+
     }
 
     private void onLoad() {

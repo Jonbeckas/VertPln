@@ -13,6 +13,8 @@ import org.jsoup.select.Elements;
 import java.io.File;
 import java.io.IOException;
 import java.net.ContentHandler;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -79,22 +81,32 @@ public class VertretungsplanTricks {
        List<VertObject> objects = new ArrayList<VertObject>();
 
         Document html = Jsoup.parse(text);
+        /*Elements div = html.select("div");
+        String[] parts = div.eachText().get(0).split(" ");
+       if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+           LocalDate date = LocalDate.now();
+           DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+           if (div.eachText() != null) {
+
+               System.out.println(div.eachText().get(0));
+           }
+       }*/
+
         Elements table = html.select("table");
         Elements rows = table.get(2).select("tr");
         for (Element rowz: rows) {
             Elements rowzz = rowz.select("td");
             if (rowzz.size() != 0) {
-                System.out.println(rowzz);
                 List<String> array = rowzz.eachText();
                 final Pattern pattern = Pattern.compile(getClazz(), Pattern.MULTILINE);
                 final Matcher matcher = pattern.matcher(array.get(1));
                 if (matcher.matches()) {
                     VertObject vobject = new VertObject();
-                    vobject.setStunde(array.get(0));
-                    vobject.setLehrer(array.get(2));
-                    vobject.setWer(array.get(3));
-                    vobject.setRaum(array.get(4));
-                    vobject.setFach(array.get(5));
+                    vobject.setStunde(array.get(0).replaceAll("=","").replaceAll("<.*?>",""));
+                    vobject.setLehrer(array.get(2).replaceAll("=","").replaceAll("<.*?>",""));
+                    vobject.setWer(array.get(3).replaceAll("=","").replaceAll("<.*?>",""));
+                    vobject.setRaum(array.get(4).replaceAll("=","").replaceAll("<.*?>",""));
+                    vobject.setFach(array.get(5).replaceAll("=","").replaceAll("<.*?>",""));
                     try {
                         vobject.setBemerkung(array.get(6) + "\n" + array.get(7) + "\n" + array.get(8));
                     } catch(IndexOutOfBoundsException e) {

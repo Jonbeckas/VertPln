@@ -45,10 +45,12 @@ public class SceneStart extends SceneClass {
         tomorrow.setOnClickListener(this::tomorrowClick);
         ImageView settings = this.mainActivity.findViewById(R.id.iwSettings);
         settings.setOnClickListener(this::settingsClick);
-        MoodleTricks moodle = new MoodleTricks(this.mainActivity);
         this.swipe = this.mainActivity.findViewById(R.id.swipe);
         this.swipe.setOnRefreshListener(this::onRefresh);
-        moodle.getMoodleSite(this.mainActivity.findViewById(R.id.html),"https://moodle.gym-voh.de/pluginfile.php/3952/mod_resource/content/4/schuelerheute.htm?embed=1",this::OnPageFinishes);
+        check();
+    }
+
+    private void check() {
         List<VertObject> list;
         try {
             VertretungsplanTricks plan = new VertretungsplanTricks(this.mainActivity);
@@ -83,29 +85,7 @@ public class SceneStart extends SceneClass {
     private void onRefresh() {
         MoodleTricks moodle = new MoodleTricks(this.mainActivity);
         moodle.getMoodleSite(this.mainActivity.findViewById(R.id.html),"https://moodle.gym-voh.de/pluginfile.php/3952/mod_resource/content/4/schuelerheute.htm?embed=1",this::OnPageFinishes);
-        List<VertObject> list;
-        try {
-            VertretungsplanTricks plan = new VertretungsplanTricks(this.mainActivity);
-            list = plan.getHours();
-        } catch (Exception e) {
-            e.printStackTrace();
-            Sentry.capture(e);
-            VertObject vobject = new VertObject();
-            vobject.setBemerkung("Es ist ein Fehler aufgetreten!");
-            list = new ArrayList<VertObject>();
-            list.add(vobject);
-        }
-
-
-        RecyclerView recyclerView = this.mainActivity.findViewById(R.id.recycle);
-
-
-        recyclerView.setHasFixedSize(true);
-
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.mainActivity);
-        recyclerView.setLayoutManager(layoutManager);
-        RecyclerView.Adapter mAdapter = new DroppingView(list);
-        recyclerView.setAdapter(mAdapter);
+        check();
         this.swipe.setRefreshing(false);
     }
 

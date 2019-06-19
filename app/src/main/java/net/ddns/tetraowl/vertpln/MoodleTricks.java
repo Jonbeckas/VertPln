@@ -31,7 +31,7 @@ public class MoodleTricks{
         this.url = url;
         web.getSettings().setDomStorageEnabled(true);
         web.getSettings().setJavaScriptEnabled(true);
-        if (getUsername()==null || getPassword()==null) {
+       /*if (getUsername()==null || getPassword()==null) {
             AlertDialog.Builder build = new AlertDialog.Builder(this.mainActivity);
             build.setTitle("Sorry");
             build.setMessage("Bitte gebe deine Moodlezugangsdaten an");
@@ -39,7 +39,7 @@ public class MoodleTricks{
             AlertDialog message = build.create();
             message.show();
             return;
-        }
+        }*/
         web.setWebViewClient(new WebViewClient(){
             @Override
             public void onPageFinished(WebView view, String ourl) {
