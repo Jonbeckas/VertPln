@@ -1,29 +1,25 @@
 package net.ddns.tetraowl.vertpln.service;
 
-import android.app.NotificationManager;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.PixelFormat;
+import android.os.AsyncTask;
 import android.os.CountDownTimer;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.WindowManager;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.Toast;
+import com.toddway.shelf.Shelf;
 import net.ddns.tetraowl.vertpln.MoodleTricks;
-import net.ddns.tetraowl.vertpln.R;
 import net.ddns.tetraowl.vertpln.VertretungsplanTricks;
-import net.ddns.tetraowl.vertpln.scenes.SceneToday;
-import org.jetbrains.annotations.Nullable;
+
+import java.io.File;
 
 public class BackgroundService extends Service {
-    private WebView web;
+    private WebView tm;
+    private WebView td;
 
-    @Nullable
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -38,12 +34,13 @@ public class BackgroundService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.i("VertPln","Der VertPln Service wurde gestartet");
-        getNewestPlan();
+        getNewestPlan(true);
+        getNewestPlan(false);
         countdown();
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void getNewestPlan() {
+    private void getNewestPlan(boolean today) {
         final WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
         WindowManager.LayoutParams params = new WindowManager.LayoutParams(
                 android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -61,26 +58,41 @@ public class BackgroundService extends Service {
         params.height = 0;
 
         final WebView wv = new WebView(this);
-        this.web =wv;
         MoodleTricks moodleTricks = new MoodleTricks(this.getBaseContext());
-        moodleTricks.getMoodleSite(wv,"https://moodle.gym-voh.de/pluginfile.php/3952/mod_resource/content/4/schuelerheute.htm?embed=1",this::onLoad);
+        if (today) {
+            this.td =wv;
+            moodleTricks.getMoodleSite(this.td,"https://moodle.gym-voh.de/pluginfile.php/3952/mod_resource/content/4/schuelerheute.htm?embed=1",this::onLoadToday);
+        } else {
+            this.tm =wv;
+            moodleTricks.getMoodleSite(this.tm,"https://moodle.gym-voh.de/pluginfile.php/3953/mod_resource/content/3/schuelermorgen.htm?embed=1",this::onLoadTomorrow);
+        }
+
 
     }
 
-    private void onLoad() {
+    private void onLoadToday() {
         VertretungsplanTricks plan = new VertretungsplanTricks(this.getBaseContext());
-        plan.setOfflinePlanToday(this.web);
+        plan.setOfflinePlanToday(this.td);
+        Shelf shelf = new Shelf(new File(getApplication().getFilesDir(),"latest"));
+        shelf.item("today").put(plan.getHours());
+        System.out.println("SAVED_T");
+    }
+    private void onLoadTomorrow() {
+        VertretungsplanTricks plan = new VertretungsplanTricks(this.getBaseContext());
+        plan.setOfflinePlanTomorrow(this.tm);
+        System.out.println("SAVED_TOM");
     }
 
     private void countdown() {
-        new CountDownTimer(120000, 1000) {
+        new CountDownTimer(60000, 1000) {
             @Override
             public void onTick(long l) {
             }
 
             @Override
             public void onFinish() {
-                BackgroundService.this.getNewestPlan();
+                BackgroundService.this.getNewestPlan(true);
+                BackgroundService.this.getNewestPlan(false);
                 BackgroundService.this.countdown();
             }
         }.start();

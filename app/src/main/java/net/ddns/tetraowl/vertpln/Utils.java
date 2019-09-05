@@ -1,5 +1,6 @@
 package net.ddns.tetraowl.vertpln;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -44,5 +45,15 @@ public class Utils {
             throw e;
         }
         return text.toString();
+    }
+
+    public static boolean isMyServiceRunning(Class<?> serviceClass, MainActivity mainActivity) {
+        ActivityManager manager = (ActivityManager) mainActivity.getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (serviceClass.getName().equals(service.service.getClassName())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

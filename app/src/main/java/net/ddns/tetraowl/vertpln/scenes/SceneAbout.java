@@ -8,7 +8,7 @@ import net.ddns.tetraowl.vertpln.scene_managing.SceneClass;
 
 public class SceneAbout extends SceneClass {
 
-    MainActivity mainActivity;
+    private MainActivity mainActivity;
 
     @Override
     public int getLayoutId() {

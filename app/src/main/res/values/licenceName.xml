@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="licencesname">
+        <item>AndroidX Compat Support</item>
+        <item>Shelf</item>
+        <item>AndroidX Card View</item>
+        <item>AndroidX Recycler View</item>
+        <item>Jsoup</item>
+        <item>AndroidX Legacy Support</item>
+    </string-array>
+</resources>

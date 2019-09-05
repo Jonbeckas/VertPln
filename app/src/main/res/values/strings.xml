@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">VertPln</string>
+    <string name="app_name">Tabler</string>
+    <string name="vern">0.1.0</string>
 </resources>

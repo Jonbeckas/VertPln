@@ -1,5 +1,6 @@
 package net.ddns.tetraowl.vertpln.scenes;
 
+import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -8,6 +9,7 @@ import net.ddns.tetraowl.vertpln.MoodleTricks;
 import net.ddns.tetraowl.vertpln.R;
 import net.ddns.tetraowl.vertpln.VertretungsplanTricks;
 import net.ddns.tetraowl.vertpln.scene_managing.SceneClass;
+import net.ddns.tetraowl.vertpln.service.BackgroundService;
 
 public class SceneSettings extends SceneClass {
     MainActivity mainActivity;
@@ -28,11 +30,16 @@ public class SceneSettings extends SceneClass {
 
     @Override
     public boolean handleBackButtonPress() {
+        save();
+        super.getController().changeTo(new SceneStart(),R.transition.normal);
+        return true;
+    }
+    public void save() {
         this.moodle.setPassword(this.password.getText().toString());
         this.moodle.setUsername(this.username.getText().toString());
         this.vtricks.setClass(this.clazz.getText().toString());
-        super.getController().changeTo(new SceneStart(),R.transition.normal);
-        return true;
+        this.mainActivity.stopService(new Intent(mainActivity, BackgroundService.class));
+        this.mainActivity.startService(new Intent(mainActivity, BackgroundService.class));
     }
 
     @Override
@@ -55,10 +62,17 @@ public class SceneSettings extends SceneClass {
         this.vtricks = new VertretungsplanTricks(this.mainActivity);
         this.clazz = this.mainActivity.findViewById(R.id.klasse);
         this.clazz.setText(vtricks.getClazz());
+        TextView licence = this.mainActivity.findViewById(R.id.licences);
+        licence.setOnClickListener(this::oLicence);
+    }
+
+    private void oLicence(View view) {
+        save();
+        super.getController().changeTo(new SceneLicence(),R.transition.normal);
     }
 
     private void about(View view) {
-        handleBackButtonPress();
+        save();
         super.getController().changeTo(new SceneAbout(),R.transition.normal);
     }
 

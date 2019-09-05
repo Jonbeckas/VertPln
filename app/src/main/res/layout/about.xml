@@ -46,39 +46,15 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent" android:id="@+id/textView" android:layout_weight="1"
-                android:text="1.0.0" android:gravity="center_vertical"/>
+                android:text="@string/vern" android:gravity="center_vertical"/>
     </LinearLayout>
     <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="?android:attr/listDivider"
             android:backgroundTint="@color/darkGrey" android:id="@+id/view6"/>
-    <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="40dp" android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp" android:paddingLeft="20dp" android:layout_weight="0">
-        <TextView
-                android:text="Email:"
-                android:layout_width="200dp"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:layout_weight="1"/>
-        <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:layout_weight="1"/>
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent" android:layout_weight="1"
-                android:gravity="center_vertical"/>
-    </LinearLayout>
-    <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="?android:attr/listDivider"
-            android:backgroundTint="@color/darkGrey" android:id="@+id/view5"/>
     <TextView
-            android:text="VertPln von Jonas Becker"
+            android:text="Github Repository: https://github.com/Jonbeckas/VertPln"
             android:layout_width="match_parent"
             android:layout_height="40dp" android:layout_marginBottom="5dp"
             android:paddingLeft="20dp" android:gravity="center_vertical" android:layout_marginTop="5dp"
@@ -89,7 +65,7 @@
             android:background="?android:attr/listDivider"
             android:backgroundTint="@color/darkGrey" android:id="@+id/view4"/>
     <TextView
-            android:text="Vielen Dank an LowLeve,lSubmarine/Copy Paste für das Scene System."
+            android:text="Vielen Dank an LowLevelSubmarine/CopyPaste für das Scene System."
             android:layout_width="match_parent"
             android:layout_height="40dp" android:layout_marginBottom="5dp"
             android:paddingLeft="20dp" android:gravity="center_vertical" android:layout_marginTop="5dp"

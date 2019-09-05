@@ -1,10 +1,11 @@
 package net.ddns.tetraowl.vertpln.scenes;
 
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import android.os.CountDownTimer;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
-import android.webkit.WebView;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import io.sentry.Sentry;
 import net.ddns.tetraowl.vertpln.*;
@@ -14,8 +15,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SceneStart extends SceneClass {
+    private FrameLayout load;
     MainActivity mainActivity;
     SwipeRefreshLayout swipe;
+    CountDownTimer cd;
     @Override
     public int getLayoutId() {
         return R.layout.start;
@@ -28,6 +31,7 @@ public class SceneStart extends SceneClass {
 
     @Override
     public boolean handleBackButtonPress() {
+        this.cd.cancel();
         return false;
     }
 
@@ -46,6 +50,7 @@ public class SceneStart extends SceneClass {
         ImageView settings = this.mainActivity.findViewById(R.id.iwSettings);
         settings.setOnClickListener(this::settingsClick);
         this.swipe = this.mainActivity.findViewById(R.id.swipe);
+        this.load = mainActivity.findViewById(R.id.load);
         this.swipe.setOnRefreshListener(this::onRefresh);
         check();
     }
@@ -53,38 +58,51 @@ public class SceneStart extends SceneClass {
     private void check() {
         List<VertObject> list;
         try {
-            VertretungsplanTricks plan = new VertretungsplanTricks(this.mainActivity);
+            VertretungsplanTricks plan = new VertretungsplanTricks(SceneStart.this.mainActivity);
             list = plan.getHours();
         } catch (Exception e) {
             e.printStackTrace();
             Sentry.capture(e);
             VertObject vobject = new VertObject();
-            vobject.setBemerkung("Es ist ein Fehler aufgetreten!");
+            vobject.setBemerkung("Bitte warten!");
             list = new ArrayList<VertObject>();
             list.add(vobject);
+            this.cd = new CountDownTimer(5000,1000) {
+
+                @Override
+                public void onTick(long l) {
+
+                }
+
+                @Override
+                public void onFinish() {
+
+                    check();
+                }
+            };
+            this.cd.start();
         }
-
-
-        RecyclerView recyclerView = this.mainActivity.findViewById(R.id.recycle);
-
-
-        recyclerView.setHasFixedSize(true);
-
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this.mainActivity);
-        recyclerView.setLayoutManager(layoutManager);
-        RecyclerView.Adapter mAdapter = new DroppingView(list);
-        recyclerView.setAdapter(mAdapter);
+        try {
+            RecyclerView recyclerView = SceneStart.this.mainActivity.findViewById(R.id.recycle);
+            recyclerView.setHasFixedSize(true);
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(SceneStart.this.mainActivity);
+            recyclerView.setLayoutManager(layoutManager);
+            RecyclerView.Adapter mAdapter = new DroppingView(list);
+            recyclerView.setAdapter(mAdapter);
+            SceneStart.this.load.setVisibility(View.GONE);
+        } catch (NullPointerException e){
+            //
+        }
     }
 
     private void OnPageFinishes() {
-        VertretungsplanTricks plan = new VertretungsplanTricks(this.mainActivity);
+        VertretungsplanTricks plan = new VertretungsplanTricks(SceneStart.this.mainActivity);
         plan.setOfflinePlanToday(this.mainActivity.findViewById(R.id.html));
-
     }
 
     private void onRefresh() {
         MoodleTricks moodle = new MoodleTricks(this.mainActivity);
-        moodle.getMoodleSite(this.mainActivity.findViewById(R.id.html),"https://moodle.gym-voh.de/pluginfile.php/3952/mod_resource/content/4/schuelerheute.htm?embed=1",this::OnPageFinishes);
+        //moodle.getMoodleSite(this.mainActivity.findViewById(R.id.html),"https://moodle.gym-voh.de/pluginfile.php/3952/mod_resource/content/4/schuelerheute.htm?embed=1",this::OnPageFinishes);
         check();
         this.swipe.setRefreshing(false);
     }

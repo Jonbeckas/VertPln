@@ -16,6 +16,7 @@ import java.net.ContentHandler;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -68,6 +69,16 @@ public class VertretungsplanTricks {
         Shelf shelf = new Shelf(new File(this.mainActivity.getFilesDir(),"config"));
         return shelf.item("class").get(String.class);
     }
+    public void saveObjects(List<VertObject> objects) {
+        Shelf shelf = new Shelf(new File(this.mainActivity.getFilesDir(),"config"));
+        shelf.item("hours").put(objects);
+
+    }
+    public List<VertObject> getObjects() {
+        Shelf shelf = new Shelf(new File(this.mainActivity.getFilesDir(),"config"));
+        return Arrays.asList(shelf.item("hours").get(VertObject[].class));
+    }
+
 
    public List<VertObject> getHours() {
         String text;
@@ -79,8 +90,7 @@ public class VertretungsplanTricks {
             text = "";
        }
        List<VertObject> objects = new ArrayList<VertObject>();
-
-        Document html = Jsoup.parse(text);
+        Document html = Jsoup.parse(text,"UTF-8");
         /*Elements div = html.select("div");
         String[] parts = div.eachText().get(0).split(" ");
        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -91,7 +101,6 @@ public class VertretungsplanTricks {
                System.out.println(div.eachText().get(0));
            }
        }*/
-
         Elements table = html.select("table");
         Elements rows = table.get(2).select("tr");
         for (Element rowz: rows) {
@@ -102,13 +111,13 @@ public class VertretungsplanTricks {
                 final Matcher matcher = pattern.matcher(array.get(1));
                 if (matcher.matches()) {
                     VertObject vobject = new VertObject();
-                    vobject.setStunde(array.get(0).replaceAll("=","").replaceAll("<.*?>",""));
-                    vobject.setLehrer(array.get(2).replaceAll("=","").replaceAll("<.*?>",""));
-                    vobject.setWer(array.get(3).replaceAll("=","").replaceAll("<.*?>",""));
-                    vobject.setRaum(array.get(4).replaceAll("=","").replaceAll("<.*?>",""));
-                    vobject.setFach(array.get(5).replaceAll("=","").replaceAll("<.*?>",""));
+                    vobject.setStunde(replaceIt(array.get(0)));
+                    vobject.setLehrer(replaceIt(array.get(2)));
+                    vobject.setWer(replaceIt(array.get(3)));
+                    vobject.setRaum(replaceIt(array.get(4)));
+                    vobject.setFach(replaceIt(array.get(5)));
                     try {
-                        vobject.setBemerkung(array.get(6) + "\n" + array.get(7) + "\n" + array.get(8));
+                        vobject.setBemerkung(replaceIt(array.get(6)) + "\n" + replaceIt(array.get(7)) + "\n" + replaceIt(array.get(8)));
                     } catch(IndexOutOfBoundsException e) {
                         //
                     }
@@ -117,6 +126,10 @@ public class VertretungsplanTricks {
 
             }
         }
+        saveObjects(objects);
         return objects;
+    }
+    private String replaceIt(String repl) {
+       return repl.replaceAll("=C4","Ä").replaceAll("=","").replaceAll("<.*?>","");
     }
 }

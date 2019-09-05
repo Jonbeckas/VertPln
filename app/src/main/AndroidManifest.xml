@@ -17,6 +17,12 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+        <receiver
+                android:name=".service.RestartReceiver"
+                android:enabled="true"
+                android:exported="true"
+                android:label="RestartServiceWhenStopped">
+        </receiver>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

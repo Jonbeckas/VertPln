@@ -1,12 +1,7 @@
 package net.ddns.tetraowl.vertpln;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.support.annotation.Nullable;
-import android.util.Log;
-import android.webkit.CookieManager;
-import android.webkit.WebResourceResponse;
+import androidx.annotation.Nullable;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import com.toddway.shelf.Shelf;
