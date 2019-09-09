@@ -74,7 +74,11 @@ public class BackgroundService extends Service {
         VertretungsplanTricks plan = new VertretungsplanTricks(this.getBaseContext());
         plan.setOfflinePlanToday(this.td);
         Shelf shelf = new Shelf(new File(getApplication().getFilesDir(),"latest"));
-        shelf.item("today").put(plan.getHours());
+        try{
+            shelf.item("today").put(plan.getHours());
+        } catch (IndexOutOfBoundsException e) {
+
+        }
         System.out.println("SAVED_T");
     }
     private void onLoadTomorrow() {
@@ -84,7 +88,7 @@ public class BackgroundService extends Service {
     }
 
     private void countdown() {
-        new CountDownTimer(60000, 1000) {
+        new CountDownTimer(1800, 1000) {
             @Override
             public void onTick(long l) {
             }

@@ -1,5 +1,6 @@
 package net.ddns.tetraowl.vertpln;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import androidx.annotation.Nullable;
 import android.webkit.WebView;
@@ -21,20 +22,13 @@ public class MoodleTricks{
 
 
 
+    @SuppressLint("SetJavaScriptEnabled")
     public void getMoodleSite(WebView web, String url, OnPageLoad load) {
         this.load = load;
         this.url = url;
         web.getSettings().setDomStorageEnabled(true);
         web.getSettings().setJavaScriptEnabled(true);
-       /*if (getUsername()==null || getPassword()==null) {
-            AlertDialog.Builder build = new AlertDialog.Builder(this.mainActivity);
-            build.setTitle("Sorry");
-            build.setMessage("Bitte gebe deine Moodlezugangsdaten an");
-            build.setPositiveButton("OK",null);
-            AlertDialog message = build.create();
-            message.show();
-            return;
-        }*/
+
         web.setWebViewClient(new WebViewClient(){
             @Override
             public void onPageFinished(WebView view, String ourl) {
@@ -52,7 +46,6 @@ public class MoodleTricks{
                     MoodleTricks.this.load.onPageLoad();
                 }
                 else {
-                    //MoodleTricks.this.load.onPageLoad();
                     web.loadUrl(url);
                 }
             }

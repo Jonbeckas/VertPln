@@ -31,4 +31,5 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'org.jsoup:jsoup:1.12.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    androidTestImplementation 'junit:junit:4.12'
 }

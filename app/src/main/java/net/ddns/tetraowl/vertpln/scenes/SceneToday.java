@@ -72,7 +72,6 @@ public class SceneToday extends SceneClass {
         try {
             TextView topic = this.mainActivity.findViewById(R.id.topic);
             this.mainActivity.findViewById(R.id.back).setOnClickListener(this::back);
-            MoodleTricks moodle = new MoodleTricks(this.mainActivity);
             if (Utils.isConnected(this.mainActivity)) {
                 topic.setText("Vertretungsplan Heute");
                 this.plan.getOfflinePlanToday(this.web);

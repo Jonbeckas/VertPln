@@ -80,7 +80,7 @@ public class VertretungsplanTricks {
     }
 
 
-   public List<VertObject> getHours() {
+   public List<VertObject> getHours() throws IndexOutOfBoundsException {
         String text;
         Utils utils = new Utils();
         try{

@@ -62,7 +62,6 @@ public class SceneStart extends SceneClass {
             list = plan.getHours();
         } catch (Exception e) {
             e.printStackTrace();
-            Sentry.capture(e);
             VertObject vobject = new VertObject();
             vobject.setBemerkung("Bitte warten!");
             list = new ArrayList<VertObject>();
