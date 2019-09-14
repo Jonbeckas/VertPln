@@ -31,33 +31,24 @@ public class VertretungsplanTricks {
         this.mainActivity = mainActivity;
     }
 
-    public void setOfflinePlanToday(WebView web) {
-        try {
-            File file = new File(this.mainActivity.getCacheDir(),"today");
-            web.saveWebArchive(file.getAbsolutePath()+".mht");
-        }
-        catch (Exception e) {
-            Log.e("VERTPLN",e.toString());
-        }
+    public void setOfflinePlanToday(String body) {
+        Shelf shelf = new Shelf(new File(this.mainActivity.getCacheDir(),"sites"));
+        shelf.item("today").put(body);
     }
 
-    public void setOfflinePlanTomorrow(WebView web) {
-        try {
-            File file = new File(this.mainActivity.getCacheDir(),"tomorrow");
-            web.saveWebArchive(file.getAbsolutePath()+".mht");
-        }
-        catch (Exception e) {
-            Log.e("VERTPLN",e.toString());
-        }
-
+    public void setOfflinePlanTomorrow(String body) {
+        Shelf shelf = new Shelf(new File(this.mainActivity.getCacheDir(),"sites"));
+        shelf.item("tomorrow").put(body);
     }
 
-    public void getOfflinePlanTomorrow(WebView web) {
-        web.loadUrl("file://"+new File(this.mainActivity.getCacheDir(),"tomorrow").getAbsolutePath()+".mht");
+    public String getOfflinePlanTomorrow() {
+        Shelf shelf = new Shelf(new File(this.mainActivity.getCacheDir(),"sites"));
+        return  shelf.item("tomorrow").get(String.class);
     }
 
-    public void getOfflinePlanToday(WebView web) {
-        web.loadUrl("file://"+new File(this.mainActivity.getCacheDir(),"today").getAbsolutePath()+".mht");
+    public String getOfflinePlanToday() {
+        Shelf shelf = new Shelf(new File(this.mainActivity.getCacheDir(),"sites"));
+        return  shelf.item("today").get(String.class);
     }
 
     public void setClass(String clazz) {
@@ -80,15 +71,15 @@ public class VertretungsplanTricks {
     }
 
 
-   public List<VertObject> getHours() throws IndexOutOfBoundsException {
-        String text;
+   public List<VertObject> getHours(String s) throws IndexOutOfBoundsException {
+        String text = s;
         Utils utils = new Utils();
-        try{
+        /*try{
             text = utils.FiletoString(new File(this.mainActivity.getCacheDir().getAbsolutePath(),"today.mht"));
         }
         catch(IOException e) {
             text = "";
-       }
+       }*/
        List<VertObject> objects = new ArrayList<VertObject>();
         Document html = Jsoup.parse(text,"UTF-8");
         /*Elements div = html.select("div");

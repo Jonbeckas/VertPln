@@ -59,7 +59,7 @@ public class SceneStart extends SceneClass {
         List<VertObject> list;
         try {
             VertretungsplanTricks plan = new VertretungsplanTricks(SceneStart.this.mainActivity);
-            list = plan.getHours();
+            list = plan.getHours(plan.getOfflinePlanToday());
         } catch (Exception e) {
             e.printStackTrace();
             VertObject vobject = new VertObject();
@@ -92,11 +92,6 @@ public class SceneStart extends SceneClass {
         } catch (NullPointerException e){
             //
         }
-    }
-
-    private void OnPageFinishes() {
-        VertretungsplanTricks plan = new VertretungsplanTricks(SceneStart.this.mainActivity);
-        plan.setOfflinePlanToday(this.mainActivity.findViewById(R.id.html));
     }
 
     private void onRefresh() {

@@ -5,15 +5,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
+import android.webkit.WebView;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ViewGroup;
+import com.toddway.shelf.Shelf;
 import io.sentry.Sentry;
 import io.sentry.android.AndroidSentryClientFactory;
 import net.ddns.tetraowl.vertpln.scene_managing.SceneController;
 import net.ddns.tetraowl.vertpln.scenes.SceneSettings;
 import net.ddns.tetraowl.vertpln.scenes.SceneStart;
 import net.ddns.tetraowl.vertpln.service.BackgroundService;
+
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -38,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
             this.sceneController.changeTo(new SceneStart(),R.transition.normal);
         }
     }
+
 
     private boolean isService(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);

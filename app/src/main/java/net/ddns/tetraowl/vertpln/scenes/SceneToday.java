@@ -47,7 +47,15 @@ public class SceneToday extends SceneClass {
         this.load = this.mainActivity.findViewById(R.id.load);
         TextView topic = this.mainActivity.findViewById(R.id.topic);
         this.mainActivity.findViewById(R.id.back).setOnClickListener(this::back);
-        MoodleTricks moodle = new MoodleTricks(this.mainActivity);
+        this.web.getSettings().setJavaScriptEnabled(true);
+        if (Utils.isConnected(this.mainActivity)) {
+            topic.setText("Vertretungsplan Heute");
+        } else {
+            topic.setText("Vertretungsplan Heute (Offline)");
+        }
+        this.web.loadDataWithBaseURL("", new VertretungsplanTricks(this.mainActivity).getOfflinePlanToday(), "text/html", "UTF-8", "");
+        onFinished();
+        /*MoodleTricks moodle = new MoodleTricks(this.mainActivity);
         if (Utils.isConnected(this.mainActivity)) {
             topic.setText("Vertretungsplan Heute");
             this.plan.getOfflinePlanToday(this.web);
@@ -59,7 +67,7 @@ public class SceneToday extends SceneClass {
             onFinished();
         }
         SwipeRefreshLayout refresh = this.mainActivity.findViewById(R.id.refresh);
-        refresh.setOnRefreshListener(this::refresh);
+        refresh.setOnRefreshListener(this::refresh);*/
         countdown();
     }
 
@@ -70,16 +78,14 @@ public class SceneToday extends SceneClass {
 
     private void refresh() {
         try {
+            MoodleTricks moodle = new MoodleTricks(this.mainActivity);
             TextView topic = this.mainActivity.findViewById(R.id.topic);
-            this.mainActivity.findViewById(R.id.back).setOnClickListener(this::back);
             if (Utils.isConnected(this.mainActivity)) {
                 topic.setText("Vertretungsplan Heute");
-                this.plan.getOfflinePlanToday(this.web);
-                onFinished();
             } else {
                 topic.setText("Vertretungsplan Heute (Offline)");
-                onFinished();
             }
+            this.web.loadDataWithBaseURL("", new VertretungsplanTricks(this.mainActivity).getOfflinePlanToday(), "text/html", "UTF-8", "");
             SwipeRefreshLayout refresh = this.mainActivity.findViewById(R.id.refresh);
             refresh.setRefreshing(false);
         } catch (NullPointerException e) {

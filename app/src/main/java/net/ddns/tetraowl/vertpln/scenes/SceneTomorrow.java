@@ -47,19 +47,14 @@ public class SceneTomorrow extends SceneClass {
         this.load = this.mainActivity.findViewById(R.id.load);
         TextView topic = this.mainActivity.findViewById(R.id.topic);
         this.mainActivity.findViewById(R.id.back).setOnClickListener(this::back);
-        MoodleTricks moodle = new MoodleTricks(this.mainActivity);
         if (Utils.isConnected(this.mainActivity)) {
             topic.setText("Vertretungsplan Morgen");
-            this.plan.getOfflinePlanTomorrow(this.web);
-            onFinished();
-            //moodle.getMoodleSite(this.web,"https://moodle.gym-voh.de/pluginfile.php/3953/mod_resource/content/3/schuelermorgen.htm?embed=1",this::onFinished);
         } else {
             topic.setText("Vertretungsplan Morgen (Offline)");
-            this.plan.getOfflinePlanTomorrow(this.web);
-            onFinished();
         }
-        this.refresh = this.mainActivity.findViewById(R.id.refresh);
-        this.refresh.setOnRefreshListener(this::refresh);
+        this.web.getSettings().setJavaScriptEnabled(true);
+        this.web.loadDataWithBaseURL("", new VertretungsplanTricks(this.mainActivity).getOfflinePlanTomorrow(), "text/html", "UTF-8", "");
+        onFinished();
         countdown();
     }
 
@@ -74,11 +69,10 @@ public class SceneTomorrow extends SceneClass {
             TextView topic = this.mainActivity.findViewById(R.id.topic);
             if (Utils.isConnected(this.mainActivity)) {
                 topic.setText("Vertretungsplan Morgen");
-                this.plan.getOfflinePlanTomorrow(this.web);
             } else {
                 topic.setText("Vertretungsplan Morgen (Offline)");
-                this.plan.getOfflinePlanTomorrow(this.web);
             }
+            this.web.loadDataWithBaseURL("", new VertretungsplanTricks(this.mainActivity).getOfflinePlanTomorrow(), "text/html", "UTF-8", "");
             this.refresh.setRefreshing(false);
         } catch (NullPointerException e) {
             //
