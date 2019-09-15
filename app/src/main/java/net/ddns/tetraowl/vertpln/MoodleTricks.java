@@ -54,10 +54,10 @@ public class MoodleTricks{
         try {
             HashMap<String,String> data = getLoginData();
             Connection.Response doc = Jsoup.connect("https://moodle.gym-voh.de/login/index.php").data("logintoken",data.get("token")).data("username",getUsername()).data("password",getPassword()).userAgent("Mozilla").cookie("MoodleSession",data.get("cookie")).method(Connection.Method.POST).execute();
-            System.out.println("HTML"+doc.body());
-            System.out.println("TAT: "+data.get("cookie"));
-            System.out.println("TST: "+doc.cookie("MoodleSession"));
-            System.out.println("TET: "+data.get("token"));
+            //System.out.println("HTML"+doc.body());
+            //System.out.println("TAT: "+data.get("cookie"));
+            //System.out.println("TST: "+doc.cookie("MoodleSession"));
+            //System.out.println("TET: "+data.get("token"));
             return doc.cookie("MoodleSession");
         } catch (IOException e) {
             e.printStackTrace();

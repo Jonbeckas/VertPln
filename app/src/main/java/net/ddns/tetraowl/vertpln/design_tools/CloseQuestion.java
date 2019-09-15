@@ -11,8 +11,8 @@ public class CloseQuestion {
         AlertDialog.Builder build = new AlertDialog.Builder(this.mainActivity);
         build.setTitle("Sorry");
         build.setMessage("Willst du die App wirklich verlassen?");
-        build.setPositiveButton("Yes",this::positive);
-        build.setNegativeButton("No",this::negative);
+        build.setPositiveButton("Ja",this::positive);
+        build.setNegativeButton("Neine",this::negative);
         AlertDialog message = build.create();
         message.show();
     }

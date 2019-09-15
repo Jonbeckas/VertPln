@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.toddway.shelf.Shelf;
 import io.sentry.Sentry;
 import io.sentry.android.AndroidSentryClientFactory;
+import net.ddns.tetraowl.vertpln.design_tools.Updater;
 import net.ddns.tetraowl.vertpln.scene_managing.SceneController;
 import net.ddns.tetraowl.vertpln.scenes.SceneSettings;
 import net.ddns.tetraowl.vertpln.scenes.SceneStart;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ViewGroup root = findViewById(R.id.rootElement);
         this.sceneController = new SceneController(root, this);
+        new Thread(()->new Updater(this)).start();
         if (new MoodleTricks(this).getPassword() == null|| new MoodleTricks(this).getUsername()==null||new MoodleTricks(this).getPassword().equals("")||new MoodleTricks(this).getUsername().equals("")) {
             this.sceneController.changeTo(new SceneSettings(),R.transition.normal);
         } else {
