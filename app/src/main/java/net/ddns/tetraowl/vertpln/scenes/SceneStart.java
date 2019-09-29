@@ -96,6 +96,7 @@ public class SceneStart extends SceneClass {
 
     private void onRefresh() {
         MoodleTricks moodle = new MoodleTricks(this.mainActivity);
+        this.mainActivity.getBackgroundService().getNewestPlan(true);
         //moodle.getMoodleSite(this.mainActivity.findViewById(R.id.html),"https://moodle.gym-voh.de/pluginfile.php/3952/mod_resource/content/4/schuelerheute.htm?embed=1",this::OnPageFinishes);
         check();
         this.swipe.setRefreshing(false);

@@ -23,11 +23,11 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
     private SceneController sceneController;
+    private BackgroundService backgroundService = new BackgroundService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.loading);
-        BackgroundService backgroundService = new BackgroundService();
         Intent intent2 = new Intent(this,backgroundService.getClass());
         if (!isService(backgroundService.getClass())) {
             this.startService(intent2);
@@ -45,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public BackgroundService getBackgroundService() {
+        return backgroundService;
+    }
 
     private boolean isService(Class<?> serviceClass) {
         ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);

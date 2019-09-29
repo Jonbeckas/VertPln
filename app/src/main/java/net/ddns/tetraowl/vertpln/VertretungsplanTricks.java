@@ -42,18 +42,32 @@ public class VertretungsplanTricks {
     }
 
     public String getOfflinePlanTomorrow() {
-        Shelf shelf = new Shelf(new File(this.mainActivity.getCacheDir(),"sites"));
-        return  shelf.item("tomorrow").get(String.class);
+        try {
+            Shelf shelf = new Shelf(new File(this.mainActivity.getCacheDir(),"sites"));
+            return  shelf.item("tomorrow").get(String.class);
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     public String getOfflinePlanToday() {
-        Shelf shelf = new Shelf(new File(this.mainActivity.getCacheDir(),"sites"));
-        return  shelf.item("today").get(String.class);
+        try {
+            Shelf shelf = new Shelf(new File(this.mainActivity.getCacheDir(),"sites"));
+            return  shelf.item("today").get(String.class);
+        } catch (Exception e) {
+            return "";
+        }
+
     }
 
     public void setClass(String clazz) {
-        Shelf shelf = new Shelf(new File(this.mainActivity.getFilesDir(),"config"));
-        shelf.item("class").put(clazz);
+        try{
+            Shelf shelf = new Shelf(new File(this.mainActivity.getFilesDir(),"config"));
+            shelf.item("class").put(clazz);
+        }catch (Exception e) {
+            //
+        }
+
     }
 
     public String getClazz() {

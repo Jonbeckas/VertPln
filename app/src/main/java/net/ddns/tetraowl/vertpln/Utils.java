@@ -29,6 +29,14 @@ public class Utils {
         }
         return false;
     }
+    public static boolean viaMobile(Context context) {
+        final ConnectivityManager connMgr = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        final android.net.NetworkInfo wifi = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        final android.net.NetworkInfo mobile = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+        if (wifi.isConnectedOrConnecting ()) {
+            return false;
+        } else return mobile.isConnected();
+    }
     public String FiletoString(File file) throws IOException {
         StringBuilder text = new StringBuilder();
         try {

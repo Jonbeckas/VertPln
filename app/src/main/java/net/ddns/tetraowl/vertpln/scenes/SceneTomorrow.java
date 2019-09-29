@@ -14,8 +14,9 @@ public class SceneTomorrow extends SceneClass {
     WebView web;
     ProgressBar load;
     VertretungsplanTricks plan;
-    SwipeRefreshLayout refresh;
     CountDownTimer cd;
+    private SwipeRefreshLayout swipeRefreshLayout;
+
     @Override
     public int getLayoutId() {
         return R.layout.web;
@@ -43,6 +44,8 @@ public class SceneTomorrow extends SceneClass {
         this.mainActivity = super.getController().getActivity();
         this.plan = new VertretungsplanTricks(this.mainActivity);
         web = this.mainActivity.findViewById(R.id.toBr);
+        this.swipeRefreshLayout = this.mainActivity.findViewById(R.id.refresh);
+        this.swipeRefreshLayout.setOnRefreshListener(this::refresh);
         this.web.setVisibility(View.INVISIBLE);
         this.load = this.mainActivity.findViewById(R.id.load);
         TextView topic = this.mainActivity.findViewById(R.id.topic);
@@ -67,13 +70,14 @@ public class SceneTomorrow extends SceneClass {
         try {
             MoodleTricks moodle = new MoodleTricks(this.mainActivity);
             TextView topic = this.mainActivity.findViewById(R.id.topic);
+            this.mainActivity.getBackgroundService().getNewestPlan(false);
             if (Utils.isConnected(this.mainActivity)) {
                 topic.setText("Vertretungsplan Morgen");
             } else {
                 topic.setText("Vertretungsplan Morgen (Offline)");
             }
             this.web.loadDataWithBaseURL("", new VertretungsplanTricks(this.mainActivity).getOfflinePlanTomorrow(), "text/html", "UTF-8", "");
-            this.refresh.setRefreshing(false);
+            this.swipeRefreshLayout.setRefreshing(false);
         } catch (NullPointerException e) {
             //
         }

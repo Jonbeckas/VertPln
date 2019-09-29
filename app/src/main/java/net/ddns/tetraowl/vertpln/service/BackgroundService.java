@@ -12,6 +12,7 @@ import android.view.WindowManager;
 import android.webkit.WebView;
 import com.toddway.shelf.Shelf;
 import net.ddns.tetraowl.vertpln.MoodleTricks;
+import net.ddns.tetraowl.vertpln.Utils;
 import net.ddns.tetraowl.vertpln.VertretungsplanTricks;
 
 import java.io.File;
@@ -41,32 +42,13 @@ public class BackgroundService extends Service {
         return super.onStartCommand(intent, flags, startId);
     }
 
-    private void getNewestPlan(boolean today) {
-        final WindowManager windowManager = (WindowManager) getSystemService(WINDOW_SERVICE);
-        WindowManager.LayoutParams params = new WindowManager.LayoutParams(
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
-                android.view.ViewGroup.LayoutParams.WRAP_CONTENT,
-                WindowManager.LayoutParams.TYPE_PHONE,
-                WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-                        | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
-                PixelFormat.TRANSLUCENT
-        );
-
-        params.gravity = Gravity.TOP | Gravity.START;
-        params.x = 0;
-        params.y = 0;
-        params.width = 0;
-        params.height = 0;
-
-        final WebView wv = new WebView(this);
+    public void getNewestPlan(boolean today) { ;
         MoodleTricks moodleTricks = new MoodleTricks(this.getBaseContext());
         new Thread(()-> {
             try{
                 if (today) {
-                    this.td =wv;
                     moodleTricks.getMoodleSite("https://moodle.gym-voh.de/pluginfile.php/3952/mod_resource/content/4/schuelerheute.htm?embed=1",this::onLoadToday);
                 } else {
-                    this.tm =wv;
                     moodleTricks.getMoodleSite("https://moodle.gym-voh.de/pluginfile.php/3953/mod_resource/content/3/schuelermorgen.htm?embed=1",this::onLoadTomorrow);
                 }
             } catch (Exception e) {
@@ -101,9 +83,10 @@ public class BackgroundService extends Service {
 
             @Override
             public void onFinish() {
+                BackgroundService.this.countdown();
+                if(Utils.viaMobile(BackgroundService.this.getBaseContext())) return;
                 BackgroundService.this.getNewestPlan(true);
                 BackgroundService.this.getNewestPlan(false);
-                BackgroundService.this.countdown();
             }
         }.start();
     }
