@@ -8,6 +8,8 @@ public class VertObject {
     private String fach;
     private String art;
     private String bemerkung;
+    private boolean loading = false;
+    private String Date;
 
 
     public String getLehrer() {
@@ -16,6 +18,22 @@ public class VertObject {
 
     public void setLehrer(String lehrer) {
         this.lehrer = lehrer;
+    }
+
+    public boolean isLoading() {
+        return loading;
+    }
+
+    public void setLoading(boolean loading) {
+        this.loading = loading;
+    }
+
+    public String getDate() {
+        return Date;
+    }
+
+    public void setDate(String date) {
+        this.Date = date;
     }
 
     public String getStunde() {

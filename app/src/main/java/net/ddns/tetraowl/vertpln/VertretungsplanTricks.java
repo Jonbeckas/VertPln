@@ -88,24 +88,13 @@ public class VertretungsplanTricks {
    public List<VertObject> getHours(String s) throws IndexOutOfBoundsException {
         String text = s;
         Utils utils = new Utils();
-        /*try{
-            text = utils.FiletoString(new File(this.mainActivity.getCacheDir().getAbsolutePath(),"today.mht"));
-        }
-        catch(IOException e) {
-            text = "";
-       }*/
        List<VertObject> objects = new ArrayList<VertObject>();
         Document html = Jsoup.parse(text,"UTF-8");
-        /*Elements div = html.select("div");
-        String[] parts = div.eachText().get(0).split(" ");
-       if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-           LocalDate date = LocalDate.now();
-           DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
-           if (div.eachText() != null) {
-
-               System.out.println(div.eachText().get(0));
-           }
-       }*/
+        Elements dates = html.getElementsByClass("mon_title");
+        Element date = dates.get(0);
+        VertObject dateObj = new VertObject();
+        dateObj.setDate(date.text());
+        objects.add(dateObj);
         Elements table = html.select("table");
         Elements rows = table.get(2).select("tr");
         for (Element rowz: rows) {

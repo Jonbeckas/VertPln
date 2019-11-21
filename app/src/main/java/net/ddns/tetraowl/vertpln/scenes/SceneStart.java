@@ -63,7 +63,7 @@ public class SceneStart extends SceneClass {
         } catch (Exception e) {
             e.printStackTrace();
             VertObject vobject = new VertObject();
-            vobject.setBemerkung("Bitte warten!");
+            vobject.setLoading(true);
             list = new ArrayList<VertObject>();
             list.add(vobject);
             this.cd = new CountDownTimer(5000,1000) {

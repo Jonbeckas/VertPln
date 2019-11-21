@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:orientation="vertical">
+
+
+    <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            app:cardCornerRadius="10dp">
+        <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" android:paddingTop="20dp" android:paddingBottom="20dp">
+            <TextView
+                    android:text="Vertretungsplan:"
+                    android:textSize="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" android:layout_weight="1"
+                    android:gravity="center" android:fontFamily="sans-serif-black" android:textAlignment="textEnd"
+                    android:textColor="@color/darkGrey" tools:ignore="RtlCompat"/>
+            <TextView
+                    android:text="DD.MM.YYYY"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent" android:id="@+id/date" android:layout_weight="1"
+                    android:gravity="center" android:fontFamily="sans-serif-black" android:textAlignment="textStart"
+                    android:textColor="@color/darkGrey" tools:ignore="RtlCompat"/>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <Space
+            android:layout_width="match_parent"
+            android:layout_height="10dp"/>
+</LinearLayout>

@@ -26,16 +26,36 @@
                 android:fontFamily="sans-serif"
                 android:textSize="18sp"
                 android:paddingLeft="20dp"
-                android:textColor="@color/darkGrey"
+                android:textColor="@color/colorAccent"
                 android:textStyle="bold"/>
     </LinearLayout>
     <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp" android:paddingLeft="20dp">
+    <TextView
+            android:text="Version:"
+            android:layout_width="200dp"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:layout_weight="1"/>
+    <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_weight="1"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" android:id="@+id/textView" android:layout_weight="1"
+            android:text="@string/vern" android:gravity="center_vertical"/>
+</LinearLayout>
+    <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
+            android:id="@+id/buildframe"
             android:layout_height="40dp" android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp" android:paddingLeft="20dp">
         <TextView
-                android:text="Version:"
+                android:text="Build:"
                 android:layout_width="200dp"
                 android:layout_height="match_parent"
                 android:gravity="center_vertical"
@@ -45,7 +65,7 @@
                 android:layout_height="wrap_content" android:layout_weight="1"/>
         <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent" android:id="@+id/textView" android:layout_weight="1"
+                android:layout_height="match_parent" android:id="@+id/build" android:layout_weight="1"
                 android:text="@string/vern" android:gravity="center_vertical"/>
     </LinearLayout>
     <View
