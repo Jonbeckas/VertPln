@@ -27,13 +27,19 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setContentView(R.layout.loading);
         Intent intent2 = new Intent(this,backgroundService.getClass());
         if (!isService(backgroundService.getClass())) {
             this.startService(intent2);
         }
         Sentry.init("https://2d395deee5a64f1dbdd566e79deef27b@sentry.io/1401235", new AndroidSentryClientFactory(this.getApplicationContext()));
         super.onCreate(savedInstanceState);
+        SceneSettings.Settings settings;
+        settings = SceneSettings.getSettings(this);
+        if (settings == null) {
+            settings = new SceneSettings.Settings();
+            SceneSettings.saveSettings(settings,this);
+        }
+        if (settings.isDarkmode()) this.setTheme(R.style.AppThemeDark);
         setContentView(R.layout.activity_main);
         ViewGroup root = findViewById(R.id.rootElement);
         this.sceneController = new SceneController(root, this);

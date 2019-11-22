@@ -1,15 +1,20 @@
 package net.ddns.tetraowl.vertpln.scenes;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
+import com.toddway.shelf.Shelf;
 import net.ddns.tetraowl.vertpln.MainActivity;
 import net.ddns.tetraowl.vertpln.MoodleTricks;
 import net.ddns.tetraowl.vertpln.R;
 import net.ddns.tetraowl.vertpln.VertretungsplanTricks;
 import net.ddns.tetraowl.vertpln.scene_managing.SceneClass;
 import net.ddns.tetraowl.vertpln.service.BackgroundService;
+
+import java.io.File;
 
 public class SceneSettings extends SceneClass {
     MainActivity mainActivity;
@@ -18,6 +23,8 @@ public class SceneSettings extends SceneClass {
     TextView clazz;
     MoodleTricks moodle;
     VertretungsplanTricks vtricks;
+    Settings settings;
+    Switch darkmode;
     @Override
     public int getLayoutId() {
         return R.layout.settings;
@@ -40,6 +47,19 @@ public class SceneSettings extends SceneClass {
         this.vtricks.setClass(this.clazz.getText().toString());
         this.mainActivity.stopService(new Intent(mainActivity, BackgroundService.class));
         this.mainActivity.startService(new Intent(mainActivity, BackgroundService.class));
+        this.settings.setDarkmode(this.darkmode.isChecked());
+        saveSettings(this.settings,this.mainActivity);
+        if (this.settings.isDarkmode()) this.mainActivity.setTheme(R.style.AppThemeDark);
+        if (!this.settings.isDarkmode()) this.mainActivity.setTheme(R.style.AppTheme);
+    }
+
+    public static Settings getSettings(Context context) {
+        Shelf shelf = new Shelf(new File(context.getFilesDir(),"settings"));
+        return shelf.item("settings").get(Settings.class);
+    }
+    public static void saveSettings(Settings settings, Context context) {
+        Shelf shelf = new Shelf(new File(context.getFilesDir(),"settings"));
+        shelf.item("settings").put(settings);
     }
 
     @Override
@@ -64,6 +84,13 @@ public class SceneSettings extends SceneClass {
         this.clazz.setText(vtricks.getClazz());
         TextView licence = this.mainActivity.findViewById(R.id.licences);
         licence.setOnClickListener(this::oLicence);
+        this.darkmode = this.mainActivity.findViewById(R.id.darkmode);
+        try {
+            this.settings = getSettings(this.mainActivity);
+        } catch (NullPointerException n) {
+            this.settings = new Settings();
+        }
+        this.darkmode.setChecked(this.settings.darkmode);
     }
 
     private void oLicence(View view) {
@@ -78,6 +105,18 @@ public class SceneSettings extends SceneClass {
 
     private void back(View view) {
         handleBackButtonPress();
+    }
+
+    public static class Settings {
+        private boolean darkmode = true;
+
+        public boolean isDarkmode() {
+            return darkmode;
+        }
+
+        public void setDarkmode(boolean darkmode) {
+            this.darkmode = darkmode;
+        }
     }
 
 }

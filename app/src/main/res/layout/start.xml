@@ -11,18 +11,6 @@
         android:layout_margin="0dp"
         android:id="@+id/rootStored"
         android:background="?android:attr/colorBackground">
-    <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" android:id="@+id/load" android:visibility="visible">
-
-        <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_launcher"
-                android:id="@+id/imageView2"
-                android:layoutAnimation="@anim/logo_pulse"
-                android:layout_gravity="center"/>
-    </FrameLayout>
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
