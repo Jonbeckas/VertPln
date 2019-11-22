@@ -7,9 +7,7 @@ Es wird keine Haftung für die Gültigkeit des Plans übernommen.
 #### Download: https://github.com/Jonbeckas/VertPln/releases
 
 #### Installation: 
-1. Bitte Google Play protect deaktivieren.
-2. In den Androideinstellungen unter Sicherheit das "installieren von Apps aus unbekannten Quellen" aktivieren
-3. APK Datei (apk-release) doppelklicken und ausführen
+1. APK Datei (apk-release) doppelklicken und ausführen
 
 #### Bei Fehlern:
    Bitte eine GitHub issue schreiben
