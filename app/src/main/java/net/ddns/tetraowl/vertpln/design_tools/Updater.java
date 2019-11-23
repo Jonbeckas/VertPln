@@ -61,7 +61,7 @@ public class Updater {
                 Updater.this.url = url;
                 AlertDialog.Builder build = new AlertDialog.Builder(Updater.this.mainActivity);
                 build.setTitle("Update verfügbar");
-                build.setMessage("Willst du auf eine neuere Table Version updaten?");
+                build.setMessage("Willst du auf eine neuere Tabler Version updaten?");
                 build.setPositiveButton("Ja",Updater.this::positive);
                 build.setNegativeButton("Nein",Updater.this::negative);
                 AlertDialog message = build.create();
@@ -106,7 +106,7 @@ public class Updater {
             String destination = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + "/";
             Uri uri = Uri.parse("file://"+destination+"/tabler.apk");
             DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url.toString()));
-            request.setDescription("download update");
+            request.setDescription("Update wird heruntergeladen");
             request.setTitle("Tabler");
             //set destination
             request.setDestinationUri(uri);
