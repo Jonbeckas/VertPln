@@ -1,3 +1,7 @@
+## Tabler wird nicht mehr weiterentwickelt.
+### Wer die App weiterentwickeln möchte kann sie gerne Forken.
+
+
 Bei Tabler handelt es sich um eine Inoffizielle Vertretungsplan App für ein Gymnasium in Vohwinkel.
 Es wird ein Moodle Konto benötigt um auf den Vertretungsplan zugreifen zu können. Einfach unter den Einstellungen eintragen.
 Bitte in den Einstellungen für die App Autostart und Popups erlauben.
